@@ -9,8 +9,12 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
+    <h1>{{ title }}</h1>
+    {% if age >21 %}
+        <p>Tu es plus âgé</p>
+    {% else %}
+        <p>Concentre toi sur tes études</p>
+    {% endif %}
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ '/Users/Baptiste_David/PhpstormProjects/sf6Techwall/src/Controller/BlogController.php'|file_link(0) }}">src/Controller/BlogController.php</a></code></li>
