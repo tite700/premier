@@ -1,25 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Titre de l'article 1</h2>
-    <div class="metadate">Ecrit le 30/10/2001 à 12:00 dans la classe Succès</div>
+    <h2>{{ article.title }}</h2>
+    <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la classe Succès</div>
     <div class="content">
-        <img src="https://via.placeholder.com/200" alt="">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mauris ligula, molestie in nisl sed, tempor rhoncus nulla.
-            Fusce ut metus quis massa volutpat vulputate. Morbi sed dui diam. Aenean vitae dictum metus.
-            Praesent mi dui, auctor at posuere et, egestas eu eros. Nam volutpat a arcu sed dignissim.
-        </p>
-        <p>
-            Integer aliquet mauris ut neque efficitur gravida. Donec feugiat, dolor sit amet euismod ultrices, metus diam pulvinar mauris, id congue velit est non sapien.
-            Duis ultrices eget dui quis cursus. Integer nulla nunc, tincidunt in purus nec, dignissim pretium orci.
-            Aliquam maximus tincidunt erat sollicitudin aliquet.
-        </p>
-        <hr>
-        <p>
-            Integer lobortis efficitur urna, non pretium neque eleifend sit amet. Curabitur non leo ac purus suscipit egestas non non justo. Vivamus rhoncus nisl sed aliquam pellentesque. Quisque vestibulum massa ut arcu tincidunt, finibus suscipit sem pretium. Mauris hendrerit purus ligula, sit amet semper ex molestie in. Sed et mauris ac quam luctus commodo ut sed tellus. Curabitur rhoncus orci vel fermentum hendrerit. Nunc velit turpis, lobortis at lobortis ut, porta a mauris.
-        </p>
-        <p>
-            Nulla facilisi. Aliquam posuere, dolor ut sagittis molestie, felis neque laoreet diam, sit amet malesuada magna magna vitae leo. Sed iaculis urna at diam condimentum blandit. Morbi ut auctor metus. Donec a eros sed tortor bibendum sagittis et in purus. Donec sagittis interdum eros eget volutpat. Curabitur cursus tempor imperdiet. Sed accumsan ullamcorper laoreet. Praesent facilisis pretium libero, ac tincidunt augue tincidunt at. Morbi in pharetra lacus.
-        </p>
+        <img src="{{ article.image }}" alt="">
+        {{ article.content | raw }}
 {% endblock %}

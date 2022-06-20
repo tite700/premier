@@ -5,46 +5,20 @@
 {% block body %}
 
 <section class="articles">
-    <article>
-        <h2>Titre de l'article 1</h2>
-        <div class="metadate">Ecrit le 30/10/2001 à 12:00 dans la classe Succès</div>
-        <div class="content">
-            <img src="https://via.placeholder.com/200" alt="">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mauris ligula, molestie in nisl sed, tempor rhoncus nulla.
-                Fusce ut metus quis massa volutpat vulputate. Morbi sed dui diam. Aenean vitae dictum metus.
-                Praesent mi dui, auctor at posuere et, egestas eu eros. Nam volutpat a arcu sed dignissim.
-            </p>
-            <p>
-                Integer aliquet mauris ut neque efficitur gravida. Donec feugiat, dolor sit amet euismod ultrices, metus diam pulvinar mauris, id congue velit est non sapien.
-                Duis ultrices eget dui quis cursus. Integer nulla nunc, tincidunt in purus nec, dignissim pretium orci.
-                Aliquam maximus tincidunt erat sollicitudin aliquet.
-            </p>
-            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
-        </div>
-    </article>
 
-    <article>
-        <h2>Titre de l'article 2</h2>
-        <div class="metadate">Ecrit le 30/10/2001 à 12:00 dans la classe Succès</div>
-        <div class="content">
-            <img src="https://via.placeholder.com/200" alt="">
-            <p>
-                Donec mattis nec nisl nec dictum. Donec sit amet dui mauris. Vivamus auctor tortor ut sem iaculis, fermentum ornare odio eleifend.
-                Nam condimentum sem vel molestie eleifend. Pellentesque elit libero, bibendum ac sapien vel, pharetra maximus tellus.
-                Nunc ligula eros, pulvinar non porttitor id, porttitor in augue. Cras ac erat a nunc bibendum dictum non laoreet ligula.
-                Donec eu odio sed velit pellentesque semper ut quis sapien. Aliquam erat volutpat.
-            </p>
-            <p>
-                Proin consequat lorem consequat, auctor ex nec, malesuada risus. Duis iaculis arcu vel quam finibus, ut aliquet est congue.
-                Proin libero urna, auctor in enim vel, placerat condimentum mauris. Aliquam pellentesque leo nec interdum bibendum.
-                Praesent sollicitudin quam dui, et egestas elit faucibus ut.
-                Curabitur venenatis justo non quam accumsan, sit amet volutpat dolor suscipit. Pellentesque ut pulvinar ex.
-                In scelerisque justo quis pharetra elementum.
-            </p>
-            <a href="{{ path('blog_show') }}" class="btn btn-primary">Lire la suite</a>
-        </div>
-    </article>
+      {% for article in articles %}
+        <article>
+            <h2>{{ article.title }} </h2>
+            <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à  {{article.createdAt | date('H:i') }} dans la classe Succès
+            </div>
+            <div class="content">
+                <img src="{{ article.image }}" alt="">
+                 {{ article.content | raw }}
+                <a href="{{ path('blog_show',{'id':article.id}) }}" class="btn btn-primary">Lire la suite</a>
+            </div>
+        </article>
+          <br>
+     {% endfor %}
 
 </section>
 
