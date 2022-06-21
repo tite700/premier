@@ -2,8 +2,14 @@
 
 {% block body %}
     <h2>{{ article.title }}</h2>
+    <br>
     <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la classe Succès</div>
+    <br>
     <div class="content">
         <img src="{{ article.image }}" alt="">
+        <br>
         {{ article.content | raw }}
+    <br>
+    <a href="{{ path('blog_edit', {'id': article.id}) }}"><button type="submit" class="btn btn-success">Modifier l'article</button></a>
+    <br>
 {% endblock %}

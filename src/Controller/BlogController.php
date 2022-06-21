@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormTypeInterface;
 
+
 class BlogController extends AbstractController
 {
 
@@ -38,9 +39,14 @@ class BlogController extends AbstractController
         return $this->render('blog/home.html.twig');
     }
 
-    #[Route('/blog/new', name:'blog_create')]
-    public function create(Request $request, EntityManagerInterface $manager){
+    /**
+     * @Route("/blog/new", name="blog_create")
+     */
+
+    public function create(Request $request, EntityManagerInterface $manager): Response
+    {
         $article = new Article();
+
         $form = $this->createFormBuilder($article)
                      ->add('title',TextType::class,[
                          'attr' => [
@@ -67,6 +73,7 @@ class BlogController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $article->setCreatedAt(new \DateTimeImmutable());
 
+
             $manager->persist($article);
             $manager->flush();
 
@@ -87,5 +94,43 @@ class BlogController extends AbstractController
         ]);
     }
 
+    #[Route('/blog/{id}/edit',name: 'blog_edit')]
+    public function edit(Article $article,Request $request, EntityManagerInterface $manager) : Response
+    {
+        $form = $this->createFormBuilder($article)
+            ->add('title',TextType::class,[
+                'attr' => [
+                    'placeholder' => $article->getTitle(),
+                    'class' => "form-control"
+                ]
+            ])
+            ->add('content',TextareaType::class,[
+                'attr' => [
+                    'placeholder' => $article->getContent(),
+                    'class' => "form-control"
+                ]
+            ])
+            ->add('image',TextType::class,[
+                'attr' => [
+                    'placeholder' => $article->getImage(),
+                    'class' => "form-control"
+                ]
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $manager->persist($article);
+            $manager->flush();
+
+            return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
+        }
+        return $this->render('blog/edit.html.twig', [
+            'formArticle' => $form->createView()
+        ]);
+
+    }
 
 }
