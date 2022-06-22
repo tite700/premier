@@ -1,15 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>{{ article.title }}</h2>
+    <h2 xmlns="http://www.w3.org/1999/html">{{ article.title }}</h2>
     <br>
-    <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la classe Succès</div>
+    <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}</div>
     <br>
     <div class="content">
         <img src="{{ article.image }}" alt="">
         <br>
         {{ article.content | raw }}
     <br>
-    <a href="{{ path('blog_edit', {'id': article.id}) }}"><button type="submit" class="btn btn-success">Modifier l'article</button></a>
+     {# <a href="{{ path('blog_edit', {'id': article.id}) }}"><button type="submit" class="btn btn-success">Modifier l'article</button></a> #}
+
+    <section id="commentaires">
+        {% for comment in article.comments %}
+            <div class="comment">
+                <div class="row">
+                    <div class="col-3">
+                        {{ comment.author }} <small>{{ comment.createdAt | date('d/m/Y') }}</small>
+                    </div>
+                    <div class="col">
+                        {{ comment.text | raw }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
     <br>
 {% endblock %}

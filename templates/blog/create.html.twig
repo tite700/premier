@@ -21,8 +21,15 @@
         {{ form_widget(formArticle.image) }}
     </div>
     <br>
-    <button type="submit" class="btn btn-success">Ajouter l'article</button>
+    <div class="form-group">
+        <label for="">Image</label>
+        {{ form_widget(formArticle.category) }}
+    </div>
     <br>
     {{ form_end(formArticle) }}
+    <br>
+    <button type="submit" class="btn btn-success">Ajouter l'article</button>
+    <br>
+
 
 {% endblock %}

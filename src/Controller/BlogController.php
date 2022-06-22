@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Repository\ArticleRepository;
 use phpDocumentor\Reflection\Types\This;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,7 +56,15 @@ class BlogController extends AbstractController
                              'class' => "form-control"
                          ]
                      ])
+                    ->add('category',EntityType::class,[
+                        'class' => Category::class,
+                        'choice_label' => 'title',
+                        'attr' => [
+                            'class' => "form-control"
+                        ]
+                    ])
                      ->add('content',TextareaType::class,[
+
                          'attr' => [
                              'placeholder' => "Contenu de l'article",
                              'class' => "form-control"
@@ -101,6 +111,13 @@ class BlogController extends AbstractController
             ->add('title',TextType::class,[
                 'attr' => [
                     'placeholder' => $article->getTitle(),
+                    'class' => "form-control"
+                ]
+            ])
+            ->add('category',EntityType::class,[
+                'class' => Category::class,
+                'choice_label' => 'title',
+                'attr' => [
                     'class' => "form-control"
                 ]
             ])
