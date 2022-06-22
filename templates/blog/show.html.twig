@@ -25,6 +25,22 @@
                 </div>
             </div>
         {% endfor %}
+
+        <h1>Création d'un commentaire</h1>
+        <br>
+        {{ form_start(formComment) }}
+        <br>
+        <div class="form-group">
+            {{ form_row(formComment.text) }}
+        </div>
+        <br>
+        <div class="form-group">
+            {{ form_row(formComment.author) }}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success">Créer le commentaire</button>
+        <br>
+        {{ form_end(formComment) }}
     </section>
     <br>
 {% endblock %}
