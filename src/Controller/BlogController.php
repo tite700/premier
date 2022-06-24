@@ -15,10 +15,12 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Security\Core\Security;
 
 
 class BlogController extends AbstractController
@@ -87,6 +89,10 @@ class BlogController extends AbstractController
 
             $manager->persist($article);
             $manager->flush();
+            /* $this->addFlash(
+                'notice',
+                'Your article was created !'
+            ); */
 
             return $this->redirectToRoute('blog_show',['id' => $article->getId()]);
         }
@@ -95,6 +101,7 @@ class BlogController extends AbstractController
             'formArticle' => $form->createView()
         ]);
     }
+
 
     #[Route('/blog/{id}', name: 'blog_show')]
     public function show(ManagerRegistry $doctrine,$id,Request $request,EntityManagerInterface $manager) : Response
@@ -109,22 +116,28 @@ class BlogController extends AbstractController
                     'class' => "form-control"
                     ]
             ])
-            ->add('author',TextType::class,[
+            /* ->add('author',TextType::class,[
                 'attr' => [
                     'placeholder' => "Auteur de l'article",
                     'class' => "form-control"
                 ]
-            ])
+            ]) */
             ->getForm();
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setArticle($article);
+            $user = $this->getUser();
+            $comment->setAuthor($user->getUsername());
 
 
             $manager->persist($comment);
             $manager->flush();
+            $this->addFlash(
+                'notice',
+                'Your comment was added!'
+            );
             return $this->redirectToRoute('blog_show',['id' => $article->getId()]);
         }
         return $this->render('blog/show.html.twig', [
@@ -171,6 +184,9 @@ class BlogController extends AbstractController
 
             $manager->persist($article);
             $manager->flush();
+            $this->addFlash(
+                'notice',
+                'Your article was edited!');
 
             return $this->redirectToRoute('blog_show', ['id' => $article->getId()]);
         }

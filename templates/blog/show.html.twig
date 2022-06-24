@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2 xmlns="http://www.w3.org/1999/html">{{ article.title }}</h2>
+    <header xmlns="http://www.w3.org/1999/html">{{ article.title }}</header>
     <br>
     <div class="metadate">Ecrit le {{ article.createdAt | date('d/m/Y') }} à {{ article.createdAt | date('H:i') }} dans la catégorie {{ article.category.title }}</div>
     <br>
@@ -25,22 +25,31 @@
                 </div>
             </div>
         {% endfor %}
+        <br>
+        <hr>
+        {% if app.user %}
 
-        <h1>Création d'un commentaire</h1>
-        <br>
-        {{ form_start(formComment) }}
-        <br>
-        <div class="form-group">
-            {{ form_row(formComment.text) }}
-        </div>
-        <br>
-        <div class="form-group">
-            {{ form_row(formComment.author) }}
-        </div>
-        <br>
-        <button type="submit" class="btn btn-success">Créer le commentaire</button>
-        <br>
-        {{ form_end(formComment) }}
+        <h4>Création d'un commentaire</h4>
+            <br>
+            {{ form_start(formComment) }}
+            <br>
+
+            <div class="form-group">
+                {{ form_row(formComment.text) }}
+            </div>
+            <br>
+            {# <div class="form-group">
+                {{ form_row(formComment.author) }}
+            </div>  #}
+            <br>
+            <button type="submit" class="btn btn-success">Créer le commentaire</button>
+            <br>
+            {{ form_end(formComment) }}
+            <br>
+        {% else %}
+            <h3>Vous ne pouvez pas commenter sans vous connecter</h3>
+            <a class="button" href="{{ path('security_login') }}">Me connecter</a>
+        {% endif %}
     </section>
     <br>
 {% endblock %}
